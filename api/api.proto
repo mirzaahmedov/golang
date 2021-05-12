@@ -1,0 +1,36 @@
+syntax="proto3";
+
+package api;
+
+option go_package = "github.com/mirzaahmedov/golang/api";
+
+service ContactProvider {
+    rpc getAll(Test) returns (Contacts);
+    rpc add(Contact) returns (Id);
+    rpc remove(Id) returns (Contact);
+    rpc update(ContactUpdate) returns (Contact);
+    rpc get(Id) returns (Contact);
+}
+
+message Test {}
+
+message Id {
+    int64 id = 1;
+}
+
+message ContactUpdate {
+    int64 id = 1;
+    Contact contact = 2;
+}
+
+message Contact {
+    int64 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    int64 phone_number = 4;
+}
+
+message Contacts {
+    int64 length = 2;
+    repeated Contact contacts = 1; 
+}

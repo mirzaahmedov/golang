@@ -11,6 +11,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+const CONN = "host=db port=5432 user=postgres password=16242405 database=postgres sslmode=disable"
+
 type Server struct {
 	api.UnimplementedContactProviderServer
 }
@@ -21,7 +23,7 @@ func (s *Server) GetAll(ctx context.Context, empty *api.Test) (*api.Contacts, er
 		id, phoneNumber     int64
 		firstName, lastName string
 	)
-	db, err := sql.Open("postgres", " host=localhost port=5432 database=test sslmode=disable ")
+	db, err := sql.Open("postgres", CONN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,7 +51,7 @@ func (s *Server) GetAll(ctx context.Context, empty *api.Test) (*api.Contacts, er
 
 func (s *Server) Add(ctx context.Context, contact *api.Contact) (*api.Id, error) {
 	var id int64
-	db, err := sql.Open("postgres", " host=localhost port=5432 database=test sslmode=disable ")
+	db, err := sql.Open("postgres", CONN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -69,7 +71,7 @@ func (s *Server) Remove(_ context.Context, target *api.Id) (*api.Contact, error)
 		id, phone_number      int64
 		first_name, last_name string
 	)
-	db, err := sql.Open("postgres", " host=localhost port=5432 database=test sslmode=disable ")
+	db, err := sql.Open("postgres", CONN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -92,7 +94,7 @@ func (s *Server) Update(_ context.Context, contact *api.ContactUpdate) (*api.Con
 		id, phone_number      int64
 		first_name, last_name string
 	)
-	db, err := sql.Open("postgres", " host=localhost port=5432 database=test sslmode=disable ")
+	db, err := sql.Open("postgres", CONN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -115,7 +117,7 @@ func (s *Server) Get(_ context.Context, target *api.Id) (*api.Contact, error) {
 		id, phone_number      int64
 		first_name, last_name string
 	)
-	db, err := sql.Open("postgres", " host=localhost port=5432 database=test sslmode=disable ")
+	db, err := sql.Open("postgres", CONN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -134,6 +136,7 @@ func (s *Server) Get(_ context.Context, target *api.Id) (*api.Contact, error) {
 }
 
 func main() {
+	log.Print("Server has been started")
 	srv := &Server{}
 	grs := grpc.NewServer()
 	api.RegisterContactProviderServer(grs, srv)

@@ -1,0 +1,16 @@
+version: "3.9"
+
+services: 
+    db: 
+        image: postgres:alpine
+        container_name: psdb
+        environment: 
+            - POSTGRES_PASSWORD=16242405
+            - POSTGRES_USER=postgres
+    server: 
+        build: ./grpc-server
+        container_name: grpc
+        ports: 
+            - "8080:8080"
+        depends_on: 
+            - db

@@ -21,9 +21,7 @@ func main() {
 	client := api.NewContactProviderClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	response, err := client.Get(ctx, &api.Id{
-		Id: 11,
-	})
+	response, err := client.GetAll(ctx, &api.Test{})
 	if err != nil {
 		log.Fatal(err)
 	}
